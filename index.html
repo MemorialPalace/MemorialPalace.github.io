@@ -11,7 +11,7 @@
   <!-- 한국어 가독성 좋은 폰트 -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Design tokens -->
+  <!-- Design tokens (Minimal + Professional 기본값) -->
   <style>
     :root{
       --bg:#0b1020;            /* 다크 네이비 */
@@ -138,13 +138,50 @@
         </div>
       </div>
       <div class="relative">
-        <!-- Hero 이미지에 스크린샷 사용 -->
-        <img
-          src="images/스크린샷%202024-06-19%20100147.png"
-          alt="스크린샷 2024-06-19 100147"
-          class="w-full h-72 md:h-96 object-cover card"
-          loading="lazy"
-        />
+        <!-- Hero 이미지 (원하는 경우 교체) -->
+        <img src="images/스크린샷%202024-06-19%20100147.png" alt="hero" class="w-full h-72 md:h-96 object-cover card" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WRITING (요청하신 글 반영) ===== -->
+  <section id="writing" class="w-full">
+    <div class="max-w-7xl mx-auto px-4 py-10">
+      <h2 class="text-2xl md:text-3xl font-semibold">Featured Writing</h2>
+      <p class="mt-2 muted">김진균 교수 관련 글과 예수회 관련 글 요약을 카드·섹션 양쪽에 반영했습니다.</p>
+
+      <!-- 두 편의 대표 글 -->
+      <div class="mt-6 grid sm:grid-cols-2 gap-6">
+        <!-- 김진균 교수 -->
+        <article id="kim" class="card pad">
+          <div class="text-xl font-medium">김진균 교수 수집록 분석 요약</div>
+          <p class="mt-2 text-sm muted leading-relaxed">
+            서울대 기록원에서의 정리 참여 경험을 바탕으로, 민주화운동의 현장성과 사회학적 사상을 연결했습니다.
+            핵심은 <strong>기록의 맥락 보존</strong>, <strong>인적 네트워크 추적</strong>, <strong>수집·정리의 반복성</strong>입니다.
+            대량 자료를 주제·인물·시대 축으로 교차 분류하여 <em>검색성</em>을 높였고, 연구자·활동가가 재활용하기 쉬운 메타데이터 체계를 제안했습니다.
+          </p>
+          <ul class="mt-3 text-sm list-disc pl-5 muted">
+            <li>민주화 관련 인물·단체 간 <em>관계 그래프</em> 초안 도출</li>
+            <li>메타데이터: 생산주체/시기/장소/매체/권리/키워드</li>
+            <li>활용 시나리오: 전시 동선/연구 주제별 패킷/교육 커리큘럼</li>
+          </ul>
+          <a href="#prompt" class="mt-4 inline-block btn btn-ghost text-sm">카드로 보내기</a>
+        </article>
+        <!-- 예수회 -->
+        <article id="jesuit" class="card pad">
+          <div class="text-xl font-medium">예수회 청년 사도직: 순명과 소통의 균형</div>
+          <p class="mt-2 text-sm muted leading-relaxed">
+            순명 문화가 청년 세대의 <strong>자율적 참여</strong>와 <strong>투명한 의사결정</strong>을 저해할 수 있다는 지점을 짚고,
+            <em>실용적 봉사 설계</em>(시간·역할·보상·학습 피드백)의 표준화가 신뢰를 복원한다고 제안합니다.
+            본당 중심의 일방향 동원 대신, 관심 기반 소그룹(마지스, 포콜라레 등)과의 연계 모델을 설계했습니다.
+          </p>
+          <ul class="mt-3 text-sm list-disc pl-5 muted">
+            <li>참여 설계: 역할명세서·온보딩·성찰 리포트·VMS 연계</li>
+            <li>소통 규범: 갈등 로깅·중재 프로토콜·오픈 피드백</li>
+            <li>성과: 측정 가능한 봉사 KPI와 서사(스토리) 동시 기록</li>
+          </ul>
+          <a href="#prompt" class="mt-4 inline-block btn btn-ghost text-sm">카드로 보내기</a>
+        </article>
       </div>
     </div>
   </section>
@@ -156,17 +193,17 @@
       <p class="mt-2 muted">상단 소개, 기능 카드, CTA, 푸터 — 랜딩 페이지 기본 구조.</p>
       <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="card pad">
-          <img src="images/feature-1.png" alt="feature 1" class="w-10 h-10 mb-3 opacity-90" loading="lazy" />
+          <img src="images/feature-1.png" alt="feature 1" class="w-10 h-10 mb-3 opacity-90" />
           <div class="font-medium">프롬프트 → 카드</div>
           <p class="mt-1 text-sm muted">노선·숫자·스토리 한 줄 입력으로 카드화.</p>
         </div>
         <div class="card pad">
-          <img src="images/feature-2.png" alt="feature 2" class="w-10 h-10 mb-3 opacity-90" loading="lazy" />
+          <img src="images/feature-2.png" alt="feature 2" class="w-10 h-10 mb-3 opacity-90" />
           <div class="font-medium">검색/필터</div>
           <p class="mt-1 text-sm muted">라인, 키워드로 빠르게 찾고 그리드로 둘러보기.</p>
         </div>
         <div class="card pad">
-          <img src="images/feature-3.png" alt="feature 3" class="w-10 h-10 mb-3 opacity-90" loading="lazy" />
+          <img src="images/feature-3.png" alt="feature 3" class="w-10 h-10 mb-3 opacity-90" />
           <div class="font-medium">JSON 백업</div>
           <p class="mt-1 text-sm muted">images 폴더만 올리면 시각 요소도 유지하기 쉬움.</p>
         </div>
@@ -230,11 +267,9 @@
       <h2 class="text-2xl md:text-3xl font-semibold">샘플 갤러리</h2>
       <p class="mt-2 muted">images 폴더에 이미지를 넣으면 자동 표시됩니다.</p>
       <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <!-- 여기에 스크린샷도 함께 노출 -->
-        <img src="images/스크린샷%202024-06-19%20100147.png" alt="스크린샷 2024-06-19 100147" class="card w-full h-48 object-cover" loading="lazy" />
-        <img src="images/grid-1.jpg" alt="grid-1" class="card w-full h-48 object-cover" loading="lazy" />
-        <img src="images/grid-2.jpg" alt="grid-2" class="card w-full h-48 object-cover" loading="lazy" />
-        <img src="images/grid-3.jpg" alt="grid-3" class="card w-full h-48 object-cover" loading="lazy" />
+        <img src="images/스크린샷%202024-06-19%20100147.png" alt="grid-ss" class="card w-full h-48 object-cover" />
+        <img src="images/grid-1.jpg" alt="grid-1" class="card w-full h-48 object-cover" />
+        <img src="images/grid-2.jpg" alt="grid-2" class="card w-full h-48 object-cover" />
       </div>
     </div>
   </section>
@@ -257,6 +292,7 @@
     <div class="max-w-7xl mx-auto px-4 py-8 text-sm muted flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
       <div>© <span id="year"></span> Memory Palace. All rights reserved.</div>
       <div class="flex items-center gap-2">
+        <a class="chip" href="#writing">글</a>
         <a class="chip" href="#features">기능</a>
         <a class="chip" href="#prompt">프롬프트</a>
         <a class="chip" href="#cta">시작하기</a>
@@ -320,6 +356,11 @@
 
       var cards = load();
 
+      function uid(){
+        try{ if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID(); }catch(e){}
+        return 'id-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+      }
+
       // 정렬
       function cmpIndex(a, b){
         var ai = (a.index||'');
@@ -327,7 +368,6 @@
         return ai.localeCompare(bi, undefined, { numeric: true, sensitivity: 'base' });
       }
 
-      // escape
       function escapeHtml(str){
         return String(str)
           .replace(/&/g, '&amp;')
@@ -366,7 +406,7 @@
           var titleHtml = c.title ? '<div class="font-medium">'+ escapeHtml(String(c.title)) +'</div>' : '';
           var storyHtml = c.story ? '<div class="text-sm muted leading-relaxed">'+ escapeHtml(String(c.story)) +'</div>' : '';
 
-          el.innerHTML =
+          el.innerHTML = ''+
             '<div class="flex items-center justify-between">'+
               '<div>'+
                 '<span class="chip mr-2">'+ escapeHtml(String(c.line||'')) +'</span>'+
@@ -385,7 +425,45 @@
           grid.appendChild(el);
         }
       }
-      render();
+
+      // 초기 샘플 없으면 주입 + 요청 글 2건 항상 보장
+      var ensured = false;
+      if (!cards || !cards.length){ cards = []; ensured = true; }
+
+      function pushOnce(idx, entry){
+        var exists = cards.some(function(c){ return c.index === idx; });
+        if (!exists){ cards.push(entry); }
+      }
+
+      // 김진균 교수 글 카드
+      pushOnce('KJ-001', {
+        id: uid(), line:'연구', index:'KJ-001', station:'서울대 기록원',
+        title:'김진균 교수 수집록 분석 요약',
+        story:'민주화운동·사회사 자료를 맥락 보존/인적 네트워크/메타데이터 체계로 정리하여 연구·전시·교육 재활용성을 높임.',
+        media:'분석 보고서(요약본)', tags:['김진균','기록학','민주화'], createdAt: Date.now()
+      });
+
+      // 예수회 글 카드
+      pushOnce('SJ-001', {
+        id: uid(), line:'에세이', index:'SJ-001', station:'예수회',
+        title:'순명과 소통: 청년 사도직 제언',
+        story:'순명 중심 문화의 리스크를 줄이고 참여 설계·소통 규범·성과 지표를 표준화하여 신뢰를 복원하는 프레임 제안.',
+        media:'에세이(공개용)', tags:['예수회','청년사도직','소통'], createdAt: Date.now()
+      });
+
+      // 기존 데모 카드 유지(처음 한 번만)
+      if (ensured){
+        cards.push(
+          { id: uid(), line:'4호선', index:'417', station:'길음', title:'보험관리자의 고전',
+            story:'길음역 앞에서 보험 관리자 분이 고전(苦戰)하는 장면으로 4-17을 기억.',
+            media:'전략 삼국지 17권(관우의 고전)', tags:['삼국지','4호선'], createdAt: Date.now() },
+          { id: uid(), line:'5호선', index:'517', station:'화곡', title:'예수회 신학원 × 프랑스 은화',
+            story:'화곡(예수회 신학원) + 김전일 프랑스 은화 살인사건 결합',
+            media:'김전일 사건파일', tags:['김전일','5호선'], createdAt: Date.now() }
+        );
+      }
+
+      save(cards); render(cards);
 
       if (grid) {
         grid.addEventListener('click', function(e){
@@ -400,9 +478,8 @@
           cards = next; save(cards); render();
         });
       }
-      if (inputs && inputs.search){
-        inputs.search.addEventListener('input', function(){ render(); });
-      }
+
+      if (inputs && inputs.search){ inputs.search.addEventListener('input', function(){ render(); }); }
 
       // 프롬프트 파서
       function parsePrompt(raw){
@@ -448,19 +525,9 @@
           var r = parsePrompt(inputs.prompt ? inputs.prompt.value : '');
           var hasAny = false;
           for (var k in r){ if (r.hasOwnProperty(k) && r[k]) { hasAny = true; break; } }
-          if(!hasAny){
-            window.alert('파싱 실패. 예) 4-17 길음 – 보험관리자 – 고전 – 삼국지17');
-            return;
-          }
+          if(!hasAny){ window.alert('파싱 실패. 예) 4-17 길음 – 보험관리자 – 고전 – 삼국지17'); return; }
           fillForm(r);
         });
-      }
-
-      function uid(){
-        try{
-          if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
-        }catch(e){}
-        return 'id-' + Date.now() + '-' + Math.random().toString(36).slice(2);
       }
 
       var addBtn = $("#addBtn");
@@ -479,7 +546,6 @@
             var sp = tagsRaw.split(',');
             for (var i=0;i<sp.length;i++){ var s = sp[i].trim(); if (s) tags.push(s); }
           }
-
           var item = { id: uid(), line: line, index: index, station: station, title: title, story: story, media: media, tags: tags, createdAt: Date.now() };
           cards.push(item); save(cards); render();
           var keys = ['prompt','line','index','station','title','story','media','tags'];
@@ -521,36 +587,13 @@
               var next = [];
               for (var i=0;i<obj.length;i++){
                 var o = obj[i] || {};
-                next.push({
-                  id: o.id || uid(),
-                  line: o.line || '',
-                  index: o.index || '',
-                  station: o.station || '',
-                  title: o.title || '',
-                  story: o.story || '',
-                  media: o.media || '',
-                  tags: o.tags || [],
-                  createdAt: o.createdAt || Date.now()
-                });
+                next.push({ id: o.id || uid(), line: o.line || '', index: o.index || '', station: o.station || '', title: o.title || '', story: o.story || '', media: o.media || '', tags: o.tags || [], createdAt: o.createdAt || Date.now() });
               }
               cards = next; save(cards); render();
             }catch(err){ window.alert('JSON을 읽을 수 없습니다.'); }
           };
           reader.readAsText(file);
         });
-      }
-
-      // 초기 샘플 (없을 때만 주입)
-      if(cards.length === 0){
-        cards = [
-          { id: uid(), line:'4호선', index:'417', station:'길음', title:'보험관리자의 고전',
-            story:'길음역 앞에서 보험 관리자 분이 고전(苦戰)하는 장면으로 4-17을 기억.',
-            media:'전략 삼국지 17권(관우의 고전)', tags:['삼국지','4호선'], createdAt: Date.now() },
-          { id: uid(), line:'5호선', index:'517', station:'화곡', title:'예수회 신학원 × 프랑스 은화',
-            story:'화곡(예수회 신학원) + 김전일 프랑스 은화 살인사건 결합',
-            media:'김전일 사건파일', tags:['김전일','5호선'], createdAt: Date.now() }
-        ];
-        save(cards); render();
       }
 
       var yearEl = $("#year");
