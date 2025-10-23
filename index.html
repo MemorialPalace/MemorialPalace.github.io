@@ -71,6 +71,7 @@
     html[data-radius="md"] .card, html[data-radius="md"] .btn { border-radius: var(--radius); }
     html[data-radius="lg"] .card, html[data-radius="lg"] .btn { border-radius: var(--radius-lg); }
 
+    /* 링크 컬러 덜 과장 */
     a{ color:var(--text); }
     a:hover{ opacity:.9; }
   </style>
@@ -138,50 +139,26 @@
         </div>
       </div>
       <div class="relative">
-        <!-- Hero 이미지 (원하는 경우 교체) -->
-        <img src="images/스크린샷%202024-06-19%20100147.png" alt="hero" class="w-full h-72 md:h-96 object-cover card" />
+        <!-- Hero 이미지 자리 -->
+        <img src="images/hero.jpg" alt="hero" class="w-full h-72 md:h-96 object-cover card" />
       </div>
     </div>
   </section>
 
-  <!-- ===== WRITING (요청하신 글 반영) ===== -->
-  <section id="writing" class="w-full">
+  <!-- ===== HOBBY: 나의 기억의 궁전 ===== -->
+  <section id="hobby" class="w-full">
     <div class="max-w-7xl mx-auto px-4 py-10">
-      <h2 class="text-2xl md:text-3xl font-semibold">Featured Writing</h2>
-      <p class="mt-2 muted">김진균 교수 관련 글과 예수회 관련 글 요약을 카드·섹션 양쪽에 반영했습니다.</p>
-
-      <!-- 두 편의 대표 글 -->
-      <div class="mt-6 grid sm:grid-cols-2 gap-6">
-        <!-- 김진균 교수 -->
-        <article id="kim" class="card pad">
-          <div class="text-xl font-medium">김진균 교수 수집록 분석 요약</div>
-          <p class="mt-2 text-sm muted leading-relaxed">
-            서울대 기록원에서의 정리 참여 경험을 바탕으로, 민주화운동의 현장성과 사회학적 사상을 연결했습니다.
-            핵심은 <strong>기록의 맥락 보존</strong>, <strong>인적 네트워크 추적</strong>, <strong>수집·정리의 반복성</strong>입니다.
-            대량 자료를 주제·인물·시대 축으로 교차 분류하여 <em>검색성</em>을 높였고, 연구자·활동가가 재활용하기 쉬운 메타데이터 체계를 제안했습니다.
-          </p>
-          <ul class="mt-3 text-sm list-disc pl-5 muted">
-            <li>민주화 관련 인물·단체 간 <em>관계 그래프</em> 초안 도출</li>
-            <li>메타데이터: 생산주체/시기/장소/매체/권리/키워드</li>
-            <li>활용 시나리오: 전시 동선/연구 주제별 패킷/교육 커리큘럼</li>
-          </ul>
-          <a href="#prompt" class="mt-4 inline-block btn btn-ghost text-sm">카드로 보내기</a>
-        </article>
-        <!-- 예수회 -->
-        <article id="jesuit" class="card pad">
-          <div class="text-xl font-medium">예수회 청년 사도직: 순명과 소통의 균형</div>
-          <p class="mt-2 text-sm muted leading-relaxed">
-            순명 문화가 청년 세대의 <strong>자율적 참여</strong>와 <strong>투명한 의사결정</strong>을 저해할 수 있다는 지점을 짚고,
-            <em>실용적 봉사 설계</em>(시간·역할·보상·학습 피드백)의 표준화가 신뢰를 복원한다고 제안합니다.
-            본당 중심의 일방향 동원 대신, 관심 기반 소그룹(마지스, 포콜라레 등)과의 연계 모델을 설계했습니다.
-          </p>
-          <ul class="mt-3 text-sm list-disc pl-5 muted">
-            <li>참여 설계: 역할명세서·온보딩·성찰 리포트·VMS 연계</li>
-            <li>소통 규범: 갈등 로깅·중재 프로토콜·오픈 피드백</li>
-            <li>성과: 측정 가능한 봉사 KPI와 서사(스토리) 동시 기록</li>
-          </ul>
-          <a href="#prompt" class="mt-4 inline-block btn btn-ghost text-sm">카드로 보내기</a>
-        </article>
+      <h2 class="text-2xl md:text-3xl font-semibold">취미 — 나의 기억의 궁전 설계</h2>
+      <p class="mt-2 muted">1~100 암기는 <strong>암기왕 유튜브</strong>를 참조했고, <strong>영부인→구미호</strong>까지의 장소 동선을 베이스로 배치했습니다. 좋아하는 <strong>지하철 노선도·포켓몬 도감</strong>을 주축으로 노선별 테마를 부여했습니다.</p>
+      <div class="mt-6 grid md:grid-cols-2 gap-6">
+        <div class="card pad"><div class="font-medium">1·2호선 — 포켓몬 도감</div><p class="mt-2 text-sm muted">포켓몬 도감 화면 안에 역 간판/번호를 넣어 내부에서 암기.</p></div>
+        <div class="card pad"><div class="font-medium">3호선 — 파랜드 텍틱스(1~30화)</div><p class="mt-2 text-sm muted">에피소드 장면×역 번호 결합.</p></div>
+        <div class="card pad"><div class="font-medium">4호선 — 전략 삼국지(1~60권)</div><p class="mt-2 text-sm muted">권수 제목을 역 번호와 매칭해 스토리 고리 구성.</p></div>
+        <div class="card pad"><div class="font-medium">5호선 — 김전일 사건파일</div><p class="mt-2 text-sm muted">예: <strong>617=화곡(예수회 신학원)</strong> × <em>프랑스 은화 살인사건</em>.</p></div>
+        <div class="card pad"><div class="font-medium">6호선 — 초한지(앞 번호대) / 포켓몬 골드(30번대)</div><p class="mt-2 text-sm muted">전반은 초한지, 30번대부터는 골드 짐리더.</p></div>
+        <div class="card pad"><div class="font-medium">7호선 — 730대=원피스 / 710대=메가맨 X1</div><p class="mt-2 text-sm muted">호수대별 고정 테마.</p></div>
+        <div class="card pad"><div class="font-medium">8호선 — 미래소년 코난</div><p class="mt-2 text-sm muted">에피소드 메인 오브젝트×숫자×역.</p></div>
+        <div class="card pad"><div class="font-medium">9호선 — 크레용 신짱 극장판</div><p class="mt-2 text-sm muted">끝자리 중복 연상: 예 <strong>938</strong>=38선→중앙보훈병원 장면.</p></div>
       </div>
     </div>
   </section>
@@ -267,9 +244,9 @@
       <h2 class="text-2xl md:text-3xl font-semibold">샘플 갤러리</h2>
       <p class="mt-2 muted">images 폴더에 이미지를 넣으면 자동 표시됩니다.</p>
       <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <img src="images/스크린샷%202024-06-19%20100147.png" alt="grid-ss" class="card w-full h-48 object-cover" />
         <img src="images/grid-1.jpg" alt="grid-1" class="card w-full h-48 object-cover" />
         <img src="images/grid-2.jpg" alt="grid-2" class="card w-full h-48 object-cover" />
+        <img src="images/grid-3.jpg" alt="grid-3" class="card w-full h-48 object-cover" />
       </div>
     </div>
   </section>
@@ -292,7 +269,6 @@
     <div class="max-w-7xl mx-auto px-4 py-8 text-sm muted flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
       <div>© <span id="year"></span> Memory Palace. All rights reserved.</div>
       <div class="flex items-center gap-2">
-        <a class="chip" href="#writing">글</a>
         <a class="chip" href="#features">기능</a>
         <a class="chip" href="#prompt">프롬프트</a>
         <a class="chip" href="#cta">시작하기</a>
@@ -303,6 +279,7 @@
   <!-- ===== SCRIPT ===== -->
   <script>
     (function(){
+      // 작은 유틸리티
       function $(sel, parent){ return (parent||document).querySelector(sel); }
       var grid = $("#grid");
 
@@ -356,25 +333,11 @@
 
       var cards = load();
 
-      function uid(){
-        try{ if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID(); }catch(e){}
-        return 'id-' + Date.now() + '-' + Math.random().toString(36).slice(2);
-      }
-
-      // 정렬
+      // 정렬용 헬퍼 (숫자 인덱스 친화)
       function cmpIndex(a, b){
         var ai = (a.index||'');
         var bi = (b.index||'');
         return ai.localeCompare(bi, undefined, { numeric: true, sensitivity: 'base' });
-      }
-
-      function escapeHtml(str){
-        return String(str)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;')
-          .replace(/'/g, '&#39;');
       }
 
       // 렌더
@@ -393,7 +356,6 @@
           var c = filtered[i];
           var el = document.createElement('div');
           el.className = 'card pad flex flex-col gap-2';
-
           var tagsHtml = '';
           if (c.tags && c.tags.length){
             for (var t=0;t<c.tags.length;t++){
@@ -426,44 +388,16 @@
         }
       }
 
-      // 초기 샘플 없으면 주입 + 요청 글 2건 항상 보장
-      var ensured = false;
-      if (!cards || !cards.length){ cards = []; ensured = true; }
-
-      function pushOnce(idx, entry){
-        var exists = cards.some(function(c){ return c.index === idx; });
-        if (!exists){ cards.push(entry); }
+      function escapeHtml(str){
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
       }
 
-      // 김진균 교수 글 카드
-      pushOnce('KJ-001', {
-        id: uid(), line:'연구', index:'KJ-001', station:'서울대 기록원',
-        title:'김진균 교수 수집록 분석 요약',
-        story:'민주화운동·사회사 자료를 맥락 보존/인적 네트워크/메타데이터 체계로 정리하여 연구·전시·교육 재활용성을 높임.',
-        media:'분석 보고서(요약본)', tags:['김진균','기록학','민주화'], createdAt: Date.now()
-      });
-
-      // 예수회 글 카드
-      pushOnce('SJ-001', {
-        id: uid(), line:'에세이', index:'SJ-001', station:'예수회',
-        title:'순명과 소통: 청년 사도직 제언',
-        story:'순명 중심 문화의 리스크를 줄이고 참여 설계·소통 규범·성과 지표를 표준화하여 신뢰를 복원하는 프레임 제안.',
-        media:'에세이(공개용)', tags:['예수회','청년사도직','소통'], createdAt: Date.now()
-      });
-
-      // 기존 데모 카드 유지(처음 한 번만)
-      if (ensured){
-        cards.push(
-          { id: uid(), line:'4호선', index:'417', station:'길음', title:'보험관리자의 고전',
-            story:'길음역 앞에서 보험 관리자 분이 고전(苦戰)하는 장면으로 4-17을 기억.',
-            media:'전략 삼국지 17권(관우의 고전)', tags:['삼국지','4호선'], createdAt: Date.now() },
-          { id: uid(), line:'5호선', index:'517', station:'화곡', title:'예수회 신학원 × 프랑스 은화',
-            story:'화곡(예수회 신학원) + 김전일 프랑스 은화 살인사건 결합',
-            media:'김전일 사건파일', tags:['김전일','5호선'], createdAt: Date.now() }
-        );
-      }
-
-      save(cards); render(cards);
+      render();
 
       if (grid) {
         grid.addEventListener('click', function(e){
@@ -479,9 +413,11 @@
         });
       }
 
-      if (inputs && inputs.search){ inputs.search.addEventListener('input', function(){ render(); }); }
+      if (inputs && inputs.search){
+        inputs.search.addEventListener('input', function(){ render(); });
+      }
 
-      // 프롬프트 파서
+      // 프롬프트 파서 (replaceAll 비호환 방지)
       function parsePrompt(raw){
         if(!raw) return {};
         var norm = String(raw)
@@ -525,9 +461,19 @@
           var r = parsePrompt(inputs.prompt ? inputs.prompt.value : '');
           var hasAny = false;
           for (var k in r){ if (r.hasOwnProperty(k) && r[k]) { hasAny = true; break; } }
-          if(!hasAny){ window.alert('파싱 실패. 예) 4-17 길음 – 보험관리자 – 고전 – 삼국지17'); return; }
+          if(!hasAny){
+            window.alert('파싱 실패. 예) 4-17 길음 – 보험관리자 – 고전 – 삼국지17');
+            return;
+          }
           fillForm(r);
         });
+      }
+
+      function uid(){
+        try{
+          if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
+        }catch(e){}
+        return 'id-' + Date.now() + '-' + Math.random().toString(36).slice(2);
       }
 
       var addBtn = $("#addBtn");
@@ -546,6 +492,7 @@
             var sp = tagsRaw.split(',');
             for (var i=0;i<sp.length;i++){ var s = sp[i].trim(); if (s) tags.push(s); }
           }
+
           var item = { id: uid(), line: line, index: index, station: station, title: title, story: story, media: media, tags: tags, createdAt: Date.now() };
           cards.push(item); save(cards); render();
           var keys = ['prompt','line','index','station','title','story','media','tags'];
@@ -587,13 +534,67 @@
               var next = [];
               for (var i=0;i<obj.length;i++){
                 var o = obj[i] || {};
-                next.push({ id: o.id || uid(), line: o.line || '', index: o.index || '', station: o.station || '', title: o.title || '', story: o.story || '', media: o.media || '', tags: o.tags || [], createdAt: o.createdAt || Date.now() });
+                next.push({
+                  id: o.id || uid(),
+                  line: o.line || '',
+                  index: o.index || '',
+                  station: o.station || '',
+                  title: o.title || '',
+                  story: o.story || '',
+                  media: o.media || '',
+                  tags: o.tags || [],
+                  createdAt: o.createdAt || Date.now()
+                });
               }
               cards = next; save(cards); render();
             }catch(err){ window.alert('JSON을 읽을 수 없습니다.'); }
           };
           reader.readAsText(file);
         });
+      }
+
+      // 초기 샘플 (없을 때만 주입)
+      if(cards.length === 0){
+        cards = [
+          // 1·2호선 — 포켓몬 도감
+          { id: uid(), line:'1호선', index:'L1', station:'포켓몬 도감', title:'포켓몬 안에 역 넣기',
+            story:'포켓몬 UI 안에 지하철역 간판/번호를 삽입해 시각 암기', media:'포켓몬 도감', tags:['포켓몬','1호선'], createdAt: Date.now() },
+          { id: uid(), line:'2호선', index:'L2', station:'포켓몬 도감', title:'이미지 내부 연상',
+            story:'기술창/능력치 옆에 역 번호·이름 배치', media:'포켓몬 도감', tags:['포켓몬','2호선'], createdAt: Date.now() },
+
+          // 3호선 — 파랜드 텍틱스(1~30화)
+          { id: uid(), line:'3호선', index:'L3', station:'파랜드 텍틱스', title:'1~30화 이미지 기반',
+            story:'에피소드 장면×역번호로 배치', media:'파랜드 텍틱스', tags:['SRPG','3호선'], createdAt: Date.now() },
+
+          // 4호선 — 전략 삼국지(1~60권)
+          { id: uid(), line:'4호선', index:'L4', station:'전략 삼국지', title:'1~60권 제목×역 번호',
+            story:'권수 제목을 역 번호와 결합해 스토리 고리', media:'전략 삼국지', tags:['삼국지','4호선'], createdAt: Date.now() },
+
+          // 5호선 — 김전일 사건파일 (예: 617)
+          { id: uid(), line:'5호선', index:'617', station:'화곡', title:'예수회 신학원 × 프랑스 은화',
+            story:'화곡(예수회 신학원) + 김전일 프랑스 은화 살인사건 결합', media:'김전일 사건파일', tags:['김전일','5호선','예수회'], createdAt: Date.now() },
+
+          // 6호선 — 초한지 / 포켓몬 골드(짐리더)
+          { id: uid(), line:'6호선', index:'L6A', station:'초한지', title:'앞 번호대=초한지',
+            story:'항우·유방 장면으로 전반부 구성', media:'초한지', tags:['고전','6호선'], createdAt: Date.now() },
+          { id: uid(), line:'6호선', index:'L6B', station:'포켓몬 골드', title:'30번대=짐리더',
+            story:'금/은 짐리더를 30번대 역에 매칭', media:'포켓몬 골드', tags:['포켓몬','6호선'], createdAt: Date.now() },
+
+          // 7호선 — 730대=원피스 / 710대=메가맨 X1
+          { id: uid(), line:'7호선', index:'L7A', station:'원피스', title:'730번대=원피스',
+            story:'단행본 제목으로 장면화', media:'ONE PIECE', tags:['만화','7호선'], createdAt: Date.now() },
+          { id: uid(), line:'7호선', index:'L7B', station:'메가맨 X1', title:'710번대=메가맨 X1',
+            story:'스테이지/보스를 역과 결합', media:'Mega Man X', tags:['게임','7호선'], createdAt: Date.now() },
+
+          // 8호선 — 미래소년 코난
+          { id: uid(), line:'8호선', index:'L8', station:'미래소년 코난', title:'에피소드 기반',
+            story:'숫자·역·메인 오브젝트의 3요소 연상', media:'미래소년 코난', tags:['애니','8호선'], createdAt: Date.now() },
+
+          // 9호선 — 크레용 신짱 극장판 (예: 938)
+          { id: uid(), line:'9호선', index:'938', station:'중앙보훈병원', title:'끝자리 중복 연상',
+            story:'38선 연상 → 중앙보훈병원에서 군인과 대치하는 민간인 이미지', media:'크레용 신짱 극장판', tags:['극장판','9호선'], createdAt: Date.now() }
+        ];
+        save(cards); render();
       }
 
       var yearEl = $("#year");
