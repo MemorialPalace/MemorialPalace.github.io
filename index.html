@@ -1,84 +1,468 @@
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"
-  }
-}
-</script>
+<!doctype html>
+<html lang="ko" data-style="professional" data-density="comfortable" data-radius="md">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Memory Palace — Landing</title>
 
-<script type="module">
-  import * as THREE from 'three';
-  import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-  import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-  import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-  import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-  import { FilmPass } from 'three/addons/postprocessing/FilmPass.js';
-  import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-  const root = document.getElementById('neural');
-  if(!root) return;
+  <!-- 한국어 가독성 좋은 폰트 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  // --- Scene/Renderer ---
-  const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x000000, 0.0015);
-
-  const camera = new THREE.PerspectiveCamera(60, root.clientWidth / root.clientHeight, 0.1, 1200);
-  camera.position.set(0,5,22);
-
-  const canvas = document.getElementById('neural-network-canvas');
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, powerPreference:'high-performance' });
-  renderer.setSize(root.clientWidth, root.clientHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setClearColor(0x000000);
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
-
-  // --- Background stars ---
-  function createStarfield(){
-    const count=4000, pos=[];
-    for(let i=0;i<count;i++){
-      const r=THREE.MathUtils.randFloat(40,120);
-      const phi=Math.acos(THREE.MathUtils.randFloatSpread(2));
-      const theta=THREE.MathUtils.randFloat(0,Math.PI*2);
-      pos.push(r*Math.sin(phi)*Math.cos(theta), r*Math.sin(phi)*Math.sin(theta), r*Math.cos(phi));
+  <!-- Design tokens (Minimal + Professional 기본값) -->
+  <style>
+    :root{
+      --bg:#0b1020;            /* 다크 네이비 */
+      --surface:#0f172a;       /* 카드 배경 */
+      --text:#e5e7eb;          /* 본문 글자 */
+      --muted:#93a5c5;         /* 보조 텍스트 */
+      --line:rgba(255,255,255,.08);
+      --brand:#60a5fa;         /* 포인트 블루 */
+      --ring:rgba(96,165,250,.35);
+      --radius:16px;
+      --radius-sm:12px; --radius-lg:24px;
+      --pad-comfort:1.25rem;   /* 카드 내부 여백 */
+      --pad-compact:.8rem;
     }
-    const geo=new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos,3));
-    const mat=new THREE.PointsMaterial({ color:0xffffff, size:0.15, sizeAttenuation:true, depthWrite:false, opacity:0.8, transparent:true });
-    return new THREE.Points(geo, mat);
-  }
-  scene.add(createStarfield());
+    html[data-style="minimal"]{
+      --bg:#ffffff; --surface:#ffffff; --text:#111111; --muted:#6b7280; --line:rgba(0,0,0,.08); --brand:#111827;
+    }
+    html[data-style="professional"]{ /* 위 기본값 유지 (네이비/다크블루) */ }
+    html[data-style="modern"]{
+      --bg:#f8fafc; --surface:#ffffff; --text:#0b0b0c; --muted:#64748b; --line:rgba(0,0,0,.06); --brand:#6366f1;
+    }
+    html[data-style="tailwind"]{
+      --bg:#f8fafc; --surface:#ffffff; --text:#0b0b0c; --muted:#6b7280; --line:rgba(0,0,0,.08); --brand:#3b82f6;
+    }
+    html[data-style="playful"]{
+      --bg:#fff7ed; --surface:#ffffff; --text:#0b0b0c; --muted:#64748b; --line:rgba(0,0,0,.06); --brand:#22c55e;
+    }
+    html[data-style="portfolio"]{
+      --bg:#ffffff; --surface:#f9fafb; --text:#0b0b0c; --muted:#6b7280; --line:rgba(0,0,0,.08); --brand:#111827;
+    }
+    html[data-style="landing"]{
+      --bg:#fafafa; --surface:#ffffff; --text:#0b0b0c; --muted:#6b7280; --line:rgba(0,0,0,.08); --brand:#7c3aed;
+    }
 
-  // --- Controls/Post ---
-  const controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true; controls.dampingFactor=.05; controls.rotateSpeed=.5;
-  controls.minDistance=5; controls.maxDistance=100; controls.autoRotate=true; controls.autoRotateSpeed=.15; controls.enablePan=false;
+    body{ background:var(--bg); color:var(--text); font-family:"Noto Sans KR", system-ui, -apple-system, Segoe UI, Roboto, "Apple SD Gothic Neo", "Malgun Gothic", Arial, sans-serif; }
+    .card{
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow: 0 1px 0 rgba(255,255,255,.04) inset, 0 12px 28px rgba(0,0,0,.18);
+    }
+    .btn{
+      border-radius:9999px; padding:.7rem 1rem; font-weight:600; transition:all .15s ease;
+      border:1px solid var(--line);
+    }
+    .btn-primary{ background:var(--brand); color:#fff; border-color:transparent; }
+    .btn-primary:hover{ filter:brightness(1.05); }
+    .btn-ghost{ background:transparent; color:var(--text); }
+    .btn-ghost:hover{ background:rgba(255,255,255,.06); }
+    .chip{ background:rgba(255,255,255,.08); color:var(--text); border-radius:9999px; padding:.25rem .6rem; font-size:.75rem; }
+    .muted{ color:var(--muted); }
 
-  const composer = new EffectComposer(renderer);
-  composer.addPass(new RenderPass(scene, camera));
-  const bloomPass = new UnrealBloomPass(new THREE.Vector2(root.clientWidth, root.clientHeight), 1.5, 0.4, 0.68);
-  composer.addPass(bloomPass);
-  composer.addPass(new FilmPass(0.35, 0.55, 2048, false));
-  composer.addPass(new OutputPass());
+    /* 밀도/모서리 사용자 토글 */
+    html[data-density="comfortable"] .pad { padding: var(--pad-comfort); }
+    html[data-density="compact"] .pad { padding: var(--pad-compact); }
+    html[data-radius="sm"] .card, html[data-radius="sm"] .btn { border-radius: var(--radius-sm); }
+    html[data-radius="md"] .card, html[data-radius="md"] .btn { border-radius: var(--radius); }
+    html[data-radius="lg"] .card, html[data-radius="lg"] .btn { border-radius: var(--radius-lg); }
 
-  // --- Minimal visual (fallback) ---
-  // *원본 스니펫의 복잡한 네트워크 제너레이터 전체를 붙이면 용량이 커지므로
-  //  우선 미니멀 파티클 스피어로 동작시켜 두었습니다.
-  const sphereGeo=new THREE.SphereGeometry(12, 64, 64);
-  const spherePts=new THREE.Points(sphereGeo, new THREE.PointsMaterial({ size:0.07 }));
-  scene.add(spherePts);
+    /* 링크 컬러 덜 과장 */
+    a{ color:var(--text); }
+    a:hover{ opacity:.9; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
 
-  // --- Animate/Resize ---
-  const starRot = scene.children[0];
-  function animate(){ requestAnimationFrame(animate); if(starRot) starRot.rotation.y += 0.0003; spherePts.rotation.y += 0.0015; controls.update(); composer.render(); }
-  animate();
-  function onResize(){ const w=root.clientWidth, h=root.clientHeight; camera.aspect=w/h; camera.updateProjectionMatrix(); renderer.setSize(w,h); composer.setSize(w,h); bloomPass.resolution.set(w,h); }
-  window.addEventListener('resize', onResize);
+  <!-- ===== NAV ===== -->
+  <header class="w-full border-b" style="border-color:var(--line)">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="images/logo.png" alt="logo" class="w-8 h-8 rounded-md object-cover" />
+        <span class="text-lg">Memory Palace</span>
+        <span class="chip hidden sm:inline">Professional · Minimal</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <select id="styleSelect" class="bg-[var(--surface)] text-[var(--text)] border rounded-md px-3 py-2 text-sm"
+                style="border-color:var(--line)">
+          <option value="professional" selected>Professional</option>
+          <option value="minimal">Minimal</option>
+          <option value="modern">Modern</option>
+          <option value="tailwind">Tailwind</option>
+          <option value="portfolio">Portfolio</option>
+          <option value="landing">Landing</option>
+          <option value="playful">Playful</option>
+        </select>
 
-  // --- Lightweight UI hooks ---
-  const pauseBtn=document.getElementById('pause-play-btn'); let paused=false;
-  pauseBtn.addEventListener('click',()=>{ paused=!paused; controls.autoRotate=!paused; pauseBtn.textContent = paused? 'Play':'Pause'; });
-  document.getElementById('reset-camera-btn').addEventListener('click',()=>{ controls.reset(); });
+        <select id="densitySelect" class="bg-[var(--surface)] text-[var(--text)] border rounded-md px-3 py-2 text-sm"
+                style="border-color:var(--line)">
+          <option value="comfortable" selected>여백: 넉넉</option>
+          <option value="compact">여백: 촘촘</option>
+        </select>
 
-  // Theme/Density/Formation 버튼은 원본 제너레이터 전체 붙일 때 활성화됩니다.
-</script>
+        <select id="radiusSelect" class="bg-[var(--surface)] text-[var(--text)] border rounded-md px-3 py-2 text-sm"
+                style="border-color:var(--line)">
+          <option value="md" selected>모서리: 보통</option>
+          <option value="sm">모서리: 각짐</option>
+          <option value="lg">모서리: 둥글게</option>
+        </select>
+
+        <a href="#cta" class="btn btn-primary text-sm">시작하기</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="w-full">
+    <div class="max-w-7xl mx-auto px-4 pt-10 pb-12 grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-semibold leading-tight">
+          기억의 궁전으로 구조를 설계하고,<br class="hidden md:block" /> 흐름을 차분하게 시각화합니다.
+        </h1>
+        <p class="mt-4 muted leading-relaxed">
+          이 템플릿은 <span class="underline underline-offset-2">이력서</span>·<span class="underline underline-offset-2">스타트업 랜딩</span>·<span class="underline underline-offset-2">상품 판매</span> 페이지로 바로 전용할 수 있는
+          <span class="whitespace-nowrap">모던·반응형</span> 단일 파일입니다. 아래의 프롬프트 섹션에서<br />
+          <code class="px-1 rounded bg-white/10">4-17 길음 – 보험관리자 – 고전 – 삼국지17</code> 처럼 입력하면 카드로 정리됩니다.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="#prompt" class="btn btn-primary">프롬프트로 만들기</a>
+          <a href="#features" class="btn btn-ghost">기능 보기</a>
+        </div>
+        <div class="mt-4 flex gap-2">
+          <span class="chip">여백 중심</span>
+          <span class="chip">정갈한 타이포</span>
+          <span class="chip">한국어 UI</span>
+        </div>
+      </div>
+      <div class="relative">
+        <!-- Hero 이미지 자리 -->
+        <img src="images/hero.jpg" alt="hero" class="w-full h-72 md:h-96 object-cover card" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURES ===== -->
+  <section id="features" class="w-full">
+    <div class="max-w-7xl mx-auto px-4 py-10">
+      <h2 class="text-2xl md:text-3xl font-semibold">핵심 기능 3가지</h2>
+      <p class="mt-2 muted">상단 소개, 기능 카드, CTA, 푸터 — 랜딩 페이지 기본 구조.</p>
+      <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="card pad">
+          <img src="images/feature-1.png" alt="feature 1" class="w-10 h-10 mb-3 opacity-90" />
+          <div class="font-medium">프롬프트 → 카드</div>
+          <p class="mt-1 text-sm muted">노선·숫자·스토리 한 줄 입력으로 카드화.</p>
+        </div>
+        <div class="card pad">
+          <img src="images/feature-2.png" alt="feature 2" class="w-10 h-10 mb-3 opacity-90" />
+          <div class="font-medium">검색/필터</div>
+          <p class="mt-1 text-sm muted">라인, 키워드로 빠르게 찾고 그리드로 둘러보기.</p>
+        </div>
+        <div class="card pad">
+          <img src="images/feature-3.png" alt="feature 3" class="w-10 h-10 mb-3 opacity-90" />
+          <div class="font-medium">JSON 백업</div>
+          <p class="mt-1 text-sm muted">`images` 폴더만 올리면 시각 요소도 유지하기 쉬움.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROMPT ===== -->
+  <section id="prompt" class="w-full">
+    <div class="max-w-7xl mx-auto px-4 py-10 grid lg:grid-cols-2 gap-6 items-start">
+      <div class="card pad">
+        <div class="text-xl font-semibold">기억의 궁전 프롬프트</div>
+        <p class="mt-2 text-sm muted">예) 4-17 길음 – 보험관리자 – 고전 – 삼국지17</p>
+        <div class="mt-4 flex gap-2">
+          <input id="promptInput" class="flex-1 border rounded-md px-3 py-2 bg-transparent"
+                 style="border-color:var(--line); color:var(--text)" placeholder="4-17 길음 – 보험관리자 – 고전 – 삼국지17" />
+          <button id="parseBtn" class="btn btn-primary">추가</button>
+        </div>
+
+        <div class="mt-4 grid sm:grid-cols-2 gap-3">
+          <input id="line" class="border rounded-md px-3 py-2 bg-transparent"
+                 style="border-color:var(--line); color:var(--text)" placeholder="노선 (예: 4호선)" />
+          <input id="index" class="border rounded-md px-3 py-2 bg-transparent"
+                 style="border-color:var(--line); color:var(--text)" placeholder="인덱스 (예: 417)" />
+          <input id="station" class="border rounded-md px-3 py-2 bg-transparent"
+                 style="border-color:var(--line); color:var(--text)" placeholder="장소/역 (예: 길음)" />
+          <input id="title" class="border rounded-md px-3 py-2 bg-transparent"
+                 style="border-color:var(--line); color:var(--text)" placeholder="짧은 제목" />
+          <input id="media" class="border rounded-md px-3 py-2 bg-transparent"
+                 style="border-color:var(--line); color:var(--text)" placeholder="작품/매체 (예: 삼국지 17권)" />
+          <input id="tags" class="border rounded-md px-3 py-2 bg-transparent"
+                 style="border-color:var(--line); color:var(--text)" placeholder="태그(쉼표)" />
+        </div>
+        <textarea id="story" rows="3" class="mt-3 w-full border rounded-md px-3 py-2 bg-transparent"
+                  style="border-color:var(--line); color:var(--text)" placeholder="스토리/연상 (예: 보험관리자 고전 장면)"></textarea>
+
+        <div class="mt-3 flex flex-wrap gap-2">
+          <button id="addBtn" class="btn btn-ghost">수동 추가</button>
+          <button id="clearBtn" class="btn btn-ghost">폼 초기화</button>
+          <button id="exportBtn" class="btn btn-ghost">JSON 내보내기</button>
+          <label class="btn btn-ghost cursor-pointer">JSON 불러오기
+            <input id="importFile" type="file" accept="application/json" class="hidden" />
+          </label>
+        </div>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <div class="text-lg font-medium">카드 목록</div>
+          <input id="search" placeholder="검색…" class="border rounded-md px-3 py-2 bg-transparent text-sm"
+                 style="border-color:var(--line); color:var(--text)" />
+        </div>
+        <div id="grid" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GALLERY ===== -->
+  <section class="w-full">
+    <div class="max-w-7xl mx-auto px-4 pb-10">
+      <h2 class="text-2xl md:text-3xl font-semibold">샘플 갤러리</h2>
+      <p class="mt-2 muted">`images` 폴더에 이미지를 넣으면 자동 표시됩니다.</p>
+      <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <img src="images/grid-1.jpg" alt="grid-1" class="card w-full h-48 object-cover" />
+        <img src="images/grid-2.jpg" alt="grid-2" class="card w-full h-48 object-cover" />
+        <img src="images/grid-3.jpg" alt="grid-3" class="card w-full h-48 object-cover" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section id="cta" class="w-full">
+    <div class="max-w-7xl mx-auto px-4 pb-16">
+      <div class="card pad flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <div class="text-xl md:text-2xl font-semibold">나만의 ‘기억의 궁전’ 랜딩을 시작합니다.</div>
+          <p class="text-sm muted mt-1">이미지 폴더만 올리면 바로 완성됩니다.</p>
+        </div>
+        <a href="#prompt" class="btn btn-primary">지금 만들기</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="mt-auto w-full border-t" style="border-color:var(--line)">
+    <div class="max-w-7xl mx-auto px-4 py-8 text-sm muted flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
+      <div>© <span id="year"></span> Memory Palace. All rights reserved.</div>
+      <div class="flex items-center gap-2">
+        <a class="chip" href="#features">기능</a>
+        <a class="chip" href="#prompt">프롬프트</a>
+        <a class="chip" href="#cta">시작하기</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPT ===== -->
+  <script>
+    const $ = (s, p=document) => p.querySelector(s);
+    const grid = $("#grid");
+
+    const stateKey = 'mp_cards_v1';
+    const styleKey = 'mp_style';
+    const densityKey = 'mp_density';
+    const radiusKey = 'mp_radius';
+
+    const inputs = {
+      prompt: $("#promptInput"),
+      line: $("#line"),
+      index: $("#index"),
+      station: $("#station"),
+      title: $("#title"),
+      story: $("#story"),
+      media: $("#media"),
+      tags: $("#tags"),
+      search: $("#search"),
+      importFile: $("#importFile"),
+    };
+    const buttons = {
+      parse: $("#parseBtn"),
+      add: $("#addBtn"),
+      clear: $("#clearBtn"),
+      export: $("#exportBtn"),
+    };
+
+    // 스타일/밀도/모서리 토글 (로컬 저장)
+    const styleSelect = $("#styleSelect");
+    const densitySelect = $("#densitySelect");
+    const radiusSelect = $("#radiusSelect");
+
+    function setAttr(key, value, storageKey){
+      document.documentElement.setAttribute(key, value);
+      localStorage.setItem(storageKey, value);
+    }
+    (function initPrefs(){
+      const s = localStorage.getItem(styleKey) || 'professional';
+      const d = localStorage.getItem(densityKey) || 'comfortable';
+      const r = localStorage.getItem(radiusKey) || 'md';
+      styleSelect.value = s; densitySelect.value = d; radiusSelect.value = r;
+      setAttr('data-style', s, styleKey);
+      setAttr('data-density', d, densityKey);
+      setAttr('data-radius', r, radiusKey);
+    })();
+    styleSelect.addEventListener('change', e => setAttr('data-style', e.target.value, styleKey));
+    densitySelect.addEventListener('change', e => setAttr('data-density', e.target.value, densityKey));
+    radiusSelect.addEventListener('change', e => setAttr('data-radius', e.target.value, radiusKey));
+
+    // 데이터 로드/세이브
+    function load(){ try { return JSON.parse(localStorage.getItem(stateKey) || '[]'); } catch { return []; } }
+    function save(list){ localStorage.setItem(stateKey, JSON.stringify(list)); }
+    let cards = load();
+
+    // 렌더
+    function render(list = cards){
+      grid.innerHTML = '';
+      const q = (inputs.search.value || '').toLowerCase();
+      list
+        .filter(c => {
+          if(!q) return true;
+          return [c.line,c.index,c.station,c.title,c.story,c.media,(c.tags||[]).join(' ')].join(' ')
+                 .toLowerCase().includes(q);
+        })
+        .sort((a,b)=> (a.index||'').localeCompare(b.index||''))
+        .forEach(c => {
+          const el = document.createElement('div');
+          el.className = 'card pad flex flex-col gap-2';
+          el.innerHTML = `
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="chip mr-2">${c.line||''}</span>
+                <span class="font-mono">${c.index||''}</span>
+                ${c.station ? `<span class="ml-2 text-sm muted">${c.station}</span>`:''}
+              </div>
+              <button class="text-sm chip" data-del="${c.id}">삭제</button>
+            </div>
+            ${c.title? `<div class="font-medium">${c.title}</div>`:''}
+            ${c.story? `<div class="text-sm muted leading-relaxed">${c.story}</div>`:''}
+            <div class="flex flex-wrap items-center gap-2 text-xs muted">
+              ${c.media? `<span>📚 ${c.media}</span>`:''}
+              ${(c.tags||[]).map(t=> `<span class="chip">#${t}</span>`).join('')}
+            </div>
+          `;
+          grid.appendChild(el);
+        });
+    }
+    render();
+
+    grid.addEventListener('click', (e)=>{
+      const id = e.target?.dataset?.del;
+      if(!id) return;
+      if(!confirm('삭제할까요?')) return;
+      cards = cards.filter(c=> c.id !== id);
+      save(cards); render();
+    });
+
+    inputs.search.addEventListener('input', ()=> render());
+
+    // 프롬프트 파서
+    function parsePrompt(raw){
+      if(!raw) return {};
+      const norm = raw
+        .replaceAll('—','-').replaceAll('–','-').replaceAll('|','-').replaceAll(':','-').replaceAll('·','-')
+        .replace(/\s+/g,' ').trim();
+      const firstSpace = norm.indexOf(' ');
+      const head = firstSpace>0 ? norm.slice(0, firstSpace) : norm;
+      const tail = firstSpace>0 ? norm.slice(firstSpace+1) : '';
+
+      let line='', index='';
+      const m = head.match(/^(\d+)[\-\/]?\s*(?:호선)?\s*(\d+)?$/);
+      if(m){
+        if(m[2]){ line = `${m[1]}호선`; index = `${m[1]}${m[2]}`; }
+        else if(m[1].length>=2){ const d=m[1]; line = `${d[0]}호선`; index = d; }
+      }
+      const parts = tail.split('-').map(s=>s.trim()).filter(Boolean);
+      const station = parts[0]||'';
+      const title = parts[1]||'';
+      const story = parts[2]||'';
+      const media = parts[3]||'';
+      return { line, index, station, title, story, media };
+    }
+    function fillForm(r){
+      if(r.line) inputs.line.value = r.line;
+      if(r.index) inputs.index.value = r.index;
+      if(r.station) inputs.station.value = r.station;
+      if(r.title) inputs.title.value = r.title;
+      if(r.story) inputs.story.value = r.story;
+      if(r.media) inputs.media.value = r.media;
+    }
+
+    $("#parseBtn").addEventListener('click', ()=>{
+      const r = parsePrompt(inputs.prompt.value);
+      if(!Object.values(r).some(Boolean)){
+        alert('파싱 실패. 예) 4-17 길음 – 보험관리자 – 고전 – 삼국지17');
+        return;
+      }
+      fillForm(r);
+    });
+
+    $("#addBtn").addEventListener('click', ()=>{
+      const line = inputs.line.value.trim();
+      const index = inputs.index.value.trim();
+      if(!line || !index){ alert('노선과 인덱스는 필수입니다.'); return; }
+      const station = inputs.station.value.trim();
+      const title = inputs.title.value.trim();
+      const story = inputs.story.value.trim();
+      const media = inputs.media.value.trim();
+      const tags = inputs.tags.value.split(',').map(s=>s.trim()).filter(Boolean);
+
+      const item = { id: crypto.randomUUID(), line, index, station, title, story, media, tags, createdAt: Date.now() };
+      cards.push(item); save(cards); render();
+      ['prompt','line','index','station','title','story','media','tags'].forEach(k=> inputs[k].value='');
+    });
+
+    $("#clearBtn").addEventListener('click', ()=>{
+      ['prompt','line','index','station','title','story','media','tags'].forEach(k=> inputs[k].value='');
+    });
+
+    $("#exportBtn").addEventListener('click', ()=>{
+      const blob = new Blob([JSON.stringify(cards,null,2)], {type:'application/json;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'memory-palace.json';
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    });
+
+    inputs.importFile.addEventListener('change', (e)=>{
+      const file = e.target.files?.[0]; if(!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try{
+          const obj = JSON.parse(reader.result);
+          if(!Array.isArray(obj)) throw new Error('형식 오류');
+          cards = obj.map(o=> ({
+            id: o.id || crypto.randomUUID(),
+            line: o.line || '',
+            index: o.index || '',
+            station: o.station || '',
+            title: o.title || '',
+            story: o.story || '',
+            media: o.media || '',
+            tags: o.tags || [],
+            createdAt: o.createdAt || Date.now()
+          }));
+          save(cards); render();
+        }catch(err){ alert('JSON을 읽을 수 없습니다.'); }
+      };
+      reader.readAsText(file);
+    });
+
+    // 초기 샘플 (없을 때만 주입)
+    if(cards.length === 0){
+      cards = [
+        { id: crypto.randomUUID(), line:'4호선', index:'417', station:'길음', title:'보험관리자의 고전',
+          story:'길음역 앞에서 보험 관리자 분이 고전(苦戰)하는 장면으로 4-17을 기억.',
+          media:'전략 삼국지 17권(관우의 고전)', tags:['삼국지','4호선'], createdAt: Date.now() },
+        { id: crypto.randomUUID(), line:'5호선', index:'517', station:'화곡', title:'예수회 신학원 × 프랑스 은화',
+          story:'화곡(예수회 신학원) + 김전일 프랑스 은화 살인사건 결합',
+          media:'김전일 사건파일', tags:['김전일','5호선'], createdAt: Date.now() }
+      ];
+      save(cards); render();
+    }
+    $("#year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
