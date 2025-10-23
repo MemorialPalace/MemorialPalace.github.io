@@ -1,0 +1,84 @@
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+  import * as THREE from 'three';
+  import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+  import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+  import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+  import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+  import { FilmPass } from 'three/addons/postprocessing/FilmPass.js';
+  import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+  const root = document.getElementById('neural');
+  if(!root) return;
+
+  // --- Scene/Renderer ---
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x000000, 0.0015);
+
+  const camera = new THREE.PerspectiveCamera(60, root.clientWidth / root.clientHeight, 0.1, 1200);
+  camera.position.set(0,5,22);
+
+  const canvas = document.getElementById('neural-network-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, powerPreference:'high-performance' });
+  renderer.setSize(root.clientWidth, root.clientHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+  // --- Background stars ---
+  function createStarfield(){
+    const count=4000, pos=[];
+    for(let i=0;i<count;i++){
+      const r=THREE.MathUtils.randFloat(40,120);
+      const phi=Math.acos(THREE.MathUtils.randFloatSpread(2));
+      const theta=THREE.MathUtils.randFloat(0,Math.PI*2);
+      pos.push(r*Math.sin(phi)*Math.cos(theta), r*Math.sin(phi)*Math.sin(theta), r*Math.cos(phi));
+    }
+    const geo=new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos,3));
+    const mat=new THREE.PointsMaterial({ color:0xffffff, size:0.15, sizeAttenuation:true, depthWrite:false, opacity:0.8, transparent:true });
+    return new THREE.Points(geo, mat);
+  }
+  scene.add(createStarfield());
+
+  // --- Controls/Post ---
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true; controls.dampingFactor=.05; controls.rotateSpeed=.5;
+  controls.minDistance=5; controls.maxDistance=100; controls.autoRotate=true; controls.autoRotateSpeed=.15; controls.enablePan=false;
+
+  const composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  const bloomPass = new UnrealBloomPass(new THREE.Vector2(root.clientWidth, root.clientHeight), 1.5, 0.4, 0.68);
+  composer.addPass(bloomPass);
+  composer.addPass(new FilmPass(0.35, 0.55, 2048, false));
+  composer.addPass(new OutputPass());
+
+  // --- Minimal visual (fallback) ---
+  // *원본 스니펫의 복잡한 네트워크 제너레이터 전체를 붙이면 용량이 커지므로
+  //  우선 미니멀 파티클 스피어로 동작시켜 두었습니다.
+  const sphereGeo=new THREE.SphereGeometry(12, 64, 64);
+  const spherePts=new THREE.Points(sphereGeo, new THREE.PointsMaterial({ size:0.07 }));
+  scene.add(spherePts);
+
+  // --- Animate/Resize ---
+  const starRot = scene.children[0];
+  function animate(){ requestAnimationFrame(animate); if(starRot) starRot.rotation.y += 0.0003; spherePts.rotation.y += 0.0015; controls.update(); composer.render(); }
+  animate();
+  function onResize(){ const w=root.clientWidth, h=root.clientHeight; camera.aspect=w/h; camera.updateProjectionMatrix(); renderer.setSize(w,h); composer.setSize(w,h); bloomPass.resolution.set(w,h); }
+  window.addEventListener('resize', onResize);
+
+  // --- Lightweight UI hooks ---
+  const pauseBtn=document.getElementById('pause-play-btn'); let paused=false;
+  pauseBtn.addEventListener('click',()=>{ paused=!paused; controls.autoRotate=!paused; pauseBtn.textContent = paused? 'Play':'Pause'; });
+  document.getElementById('reset-camera-btn').addEventListener('click',()=>{ controls.reset(); });
+
+  // Theme/Density/Formation 버튼은 원본 제너레이터 전체 붙일 때 활성화됩니다.
+</script>
